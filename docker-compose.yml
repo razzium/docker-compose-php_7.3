@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+  sftp-5f07459126754:
+    image: atmoz/sftp
+    restart: always
+    volumes:
+        - ./src:/home/clapp_api_local_1/www/clapp_api_local_1/src
+        - ./logs:/home/clapp_api_local_1/www/clapp_api_local_1/logs
+    ports:
+        - "10288:22"
+    command: clapp_api_local_1:OM5tjA2akhTuKfSM:::www
+  mysql-5f07459126754:
+    restart: always
+    image: mariadb:5.5
+    ports:
+      - 17276:3306
+    volumes:
+      - mysql_dir-5f07459126754:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: kWOBNLzWsW6NuWGI
+
+  php-5f07459126754:
+    restart: always
+    build: docker/image/php
+    depends_on:
+      - mysql-5f07459126754
+    ports:
+      - 17281:80
+      - 17241:443
+    links:
+      - mysql-5f07459126754:db-server
+    volumes:
+      - "./src:/var/www/html"
+      - "./logs/apache:/var/log/apache2"
+
+  phpmyadmin-5f07459126754:
+    restart: always
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 12191:80
+    depends_on:
+      - mysql-5f07459126754
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    links:
+      - mysql-5f07459126754:mysql
+
+volumes:
+  mysql_dir-5f07459126754:
+    driver: local
