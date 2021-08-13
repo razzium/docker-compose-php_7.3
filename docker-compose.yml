@@ -5,11 +5,11 @@ services:
     image: atmoz/sftp
     restart: always
     volumes:
-        - ./src:/home/clapp_api_local_1/www/clapp_api_local_1/src
-        - ./logs:/home/clapp_api_local_1/www/clapp_api_local_1/logs
+        - ./src:/home/docker-compose-php_7.3/www/docker-compose-php_7.3/src
+        - ./logs:/home/docker-compose-php_7.3/www/docker-compose-php_7.3/logs
     ports:
         - "22:22"
-    command: clapp_api_local_1:OM5tjA2akhTuKfSM:::www
+    command: docker-compose-php_7.3:OM5tjA2akhTuKfSM:::www
   mysql-5f07459126754:
     restart: always
     image: mariadb:5.5
